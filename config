@@ -1,16 +1,17 @@
 default_border pixel 2
 default_floating_border pixel 2
-for_window [class=".*"] border pixel 2
 
 set $mod Mod1
 
 font pango:Iosevka Nerd Font Mono 10
 floating_modifier $mod
 
-client.focused #d65e7c #151517 #f7cdd4
-client.focused_inactive #151517 #151517 #f7cdd4
-client.unfocused #151517 #151517 #f7cdd4
-client.urgent #d65e7c #151517 #f7cdd4
+client.focused          #d65e7c #151517 #f7cdd4 #d65e7c #d65e7c
+client.focused_inactive #151517 #151517 #f7cdd4 #151517 #151517
+client.unfocused        #151517 #151517 #f7cdd4 #151517 #151517
+client.urgent           #d65e7c #151517 #f7cdd4 #d65e7c #d65e7c
+
+default_orientation vertical
 
 set $ws1 1
 set $ws2 2
@@ -21,19 +22,33 @@ bindsym $mod+3 workspace $ws3
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
-
 bindsym $mod+0 workspace number 0
 
 bindsym $mod+Shift+Return exec kitty
 bindsym $mod+p exec dmenu_run -fn "Iosevka Nerd Font Mono-10" -nb "#151517" -nf "#f7cdd4" -sb "#d65e7c" -sf "#f7cdd4"
+bindsym $mod+Shift+c kill
+bindsym $mod+Shift+q exec "i3-msg exit"
+bindsym $mod+Shift+r restart
 
-general {
-    colors = true
-    color_good = "#d65e7c"     
-    color_degraded = "#e3bf30"  
-    color_bad = "#d65e7c"      
-    interval = 5
-}
+bindsym $mod+j focus next
+bindsym $mod+k focus prev
+
+bindsym $mod+space layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+f fullscreen toggle
+bindsym $mod+t layout tabbed
+bindsym $mod+s layout stacking
+
+bindsym $mod+g split h
+bindsym $mod+v split v
+
+bindsym $mod+h resize shrink width 10 px or 10 ppt
+bindsym $mod+l resize grow width 10 px or 10 ppt
+
+bindsym $mod+comma focus output left
+bindsym $mod+period focus output right
+bindsym $mod+Shift+comma move container to output left
+bindsym $mod+Shift+period move container to output right
 
 bar {
     status_command i3status
@@ -50,38 +65,4 @@ bar {
 }
 bindsym $mod+b bar mode toggle
 
-bindsym $mod+Shift+c kill
-bindsym $mod+Shift+q exec "i3-msg exit"
-bindsym $mod+Shift+r restart
-
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-
-bindsym $mod+h split h
-bindsym $mod+v split v
-
-bindsym $mod+l resize grow width 10 px or 10 ppt
-
-mode "resize" {
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym semicolon resize grow width 10 px or 10 ppt
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
-
-bindsym $mod+space layout toggle split
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+f fullscreen toggle
-bindsym $mod+t layout tabbed
-bindsym $mod+s layout stacking
-
-bindsym $mod+comma focus output left
-bindsym $mod+period focus output right
-bindsym $mod+Shift+comma move container to output left
-bindsym $mod+Shift+period move container to output right
-
 exec --no-startup-id i3-msg "workspace $ws1"
-exec --no-startup-id xsetroot -solid "#151517"
