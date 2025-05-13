@@ -1,0 +1,100 @@
+#––––– Borders & Title-bar –––––  
+# 1px border only (no title-bar)
+default_border          pixel 2
+default_floating_border pixel 2
+
+# Optional override to catch all windows
+for_window [class="^.*"] border pixel 2
+#––––– Modifier –––––  
+set $mod Mod1                    # Alt as Mod  
+
+#––––– Appearance –––––  
+font               pango:Iosevka Nerd Font 10  
+default_border     none          # no borders/titlebars  
+floating_modifier  $mod  
+
+#––––– Color Scheme –––––  
+client.focused          #d65e7c  #151517  #f7cdd4  
+client.focused_inactive #151517  #151517  #f7cdd4  
+client.unfocused        #151517  #151517  #f7cdd4  
+client.urgent           #d65e7c  #151517  #f7cdd4  
+
+#––––– Workspaces –––––  
+set $ws1 1; set $ws2 2; set $ws3 3  
+bindsym $mod+1 workspace $ws1  
+bindsym $mod+2 workspace $ws2  
+bindsym $mod+3 workspace $ws3  
+bindsym $mod+Shift+1 move container to workspace $ws1  
+bindsym $mod+Shift+2 move container to workspace $ws2  
+bindsym $mod+Shift+3 move container to workspace $ws3  
+
+# view all windows (like dwm’s “view all tags”)  
+bindsym $mod+0 workspace number 0  
+
+#––––– Basic –––––  
+# Launch kitty  
+bindsym $mod+Shift+Return exec kitty  
+
+# run> prompt (Alt+p)
+bindsym $mod+p exec --no-startup-id \
+    i3-input -F 'exec "%s"' -P 'run> '
+
+
+# Toggle top bar  
+bar {  
+    status_command i3status  
+    position top  
+    hidden_state hide  
+    colors {  
+        background   #151517  
+        statusline   #f7cdd4  
+        separator    #d65e7c  
+        focused_workspace  #d65e7c #151517 #f7cdd4  
+        inactive_workspace #151517 #151517 #f7cdd4  
+        urgent_workspace   #d65e7c #151517 #f7cdd4  
+    }  
+}  
+bindsym $mod+b bar mode toggle  
+
+# Kill and quit  
+bindsym Shift+$mod+c kill  
+bindsym Shift+$mod+q exec "i3-msg exit"  
+bindsym $mod+Shift+r reload
+
+#––––– Navigation –––––  
+bindsym $mod+j focus next        # next window  
+bindsym $mod+k focus prev        # previous window  
+
+#––––– Resizing (h/l) –––––  
+# shrink/grow width (left/right)  
+bindsym $mod+h resize shrink width 10 px or 10 ppt  
+bindsym $mod+l resize grow  width 10 px or 10 ppt  
+
+# Enter resize mode for finer control  
+mode "resize" {  
+    bindsym j resize shrink width 10 px or 10 ppt  
+    bindsym k resize grow   height 10 px or 10 ppt  
+    bindsym l resize shrink height 10 px or 10 ppt  
+    bindsym semicolon resize grow  width 10 px or 10 ppt  
+    bindsym Return mode "default"  
+    bindsym Escape mode "default"  
+}  
+bindsym $mod+r mode "resize"  
+
+#––––– Splits & Layouts –––––  
+bindsym $mod+h split h           # horizontal split  
+bindsym $mod+v split v           # vertical split  
+bindsym $mod+space layout toggle split  # toggle split orientation  
+bindsym Shift+$mod+space floating toggle  
+bindsym $mod+f fullscreen toggle # monocle/fullscreen  
+bindsym $mod+t layout default    # tiled mode  
+
+#––––– Monitors –––––  
+bindsym $mod+comma focus output left  
+bindsym $mod+period focus output right  
+bindsym Shift+$mod+comma move container to output left  
+bindsym Shift+$mod+period move container to output right  
+
+#––––– Startup –––––  
+exec --no-startup-id i3-msg "workspace $ws1"  
+exec --no-startup-id xsetroot -solid "#151517"  
